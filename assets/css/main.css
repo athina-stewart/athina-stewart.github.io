@@ -17,6 +17,20 @@
 	margin: 10px;
 } */
 
+.intro {
+	display: flex;
+	align-items: center; /* Center vertically */
+}
+
+.star {
+	width: 100px; /* Adjust the width as needed */
+	height: auto; /* Maintain the aspect ratio */
+}
+
+.hummingbird {
+	width: 50px; /* Adjust the width as needed */
+	height: auto; /* Maintain the aspect ratio */
+}
 
 
 #data_type_images {
