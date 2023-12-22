@@ -1,0 +1,474 @@
+<!DOCTYPE HTML>
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Athina Stewart - Software Engineer</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<div class="inner">
+
+							<!-- Logo -->
+								<!-- <a href="index.html" class="logo">
+									<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">Phantom</span>
+								</a> -->
+
+							<!-- Nav -->
+								<nav>
+									<ul>
+										<li><a href="#menu">Menu</a></li>
+									</ul>
+								</nav>
+
+						</div>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<h2>Menu</h2>
+						<ul>
+							<li><a href="index.html">Home</a></li>
+							<li><a href="aboutme.html">About Me</a></li>
+							<li><a href="https://drive.google.com/file/d/1v81FS_YGe7hk-wWHJMuCZXLnccwxNEtu/view?usp=sharing">Resume</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							<h1>NYC OpenData Car Crash Analysis</h1>
+							<span class="image main"><img src="images/crashed car (1).jpg" alt="" /></span>
+
+							<div class="center-box">
+								<h2>Big Data Analysis | Python, pandas, sklearn, matplotlib</h2>
+							</div>
+
+                            <div id="text-wrapper">
+
+                                <h4> The Problem</h4>
+                                <p>
+                                    The objective of this analysis is to mine the dataset provided by the City of New York containing 
+                                    information about car crashes that take place in the five (5) boroughs: Queens, Manhattan, Bronx, 
+                                    Brooklyn, and Staten Island. Firstly, we will be taking a look at the trends in the 
+                                    data on a macro scale for the years of 2019 and 2020 (that is, to look at general trends in the 
+                                    data) and then we will focus on the trends of two smaller groups:
+                                    <ol>
+                                        <li>The months of June - July</li>
+                                        <li>The borough of Manhattan</li>
+                                    </ol>
+                                    We aim to understand some of the main reasons for car crashes and potentially suggest solutions
+                                    to this. 
+                                </p>
+
+                                <h4> Data Preparation</h4>
+                                <p>  
+                                    Before being able to produce insights from the data set, the first step was to thoroughly clean 
+                                    the data. It was observed that the raw data was very unclean. For processing, the data was loaded into 
+                                    a Pandas dataframe. Firstly, we separated the Crash Date column into a year, month, and day column 
+                                    so that they can be used later for: a granular temporal analysis, it would be easier to group the 
+                                    data, and it would be easier to create data visualizations. Secondly, we ensured correct attribute 
+                                    data type. It is important that data types are consistent with the given data in the column so data 
+                                    can be interpreted easily, ambiguity is reduced, that any model done on the data will perform predictably, 
+                                    and because inconsistent data types can lead to confusion and errors during the data mining process. 
+
+                                    <pre>
+                                        <code>
+    crash_data = pd.read_csv(file) 
+
+    # convert date to datetime format and separate it into date, month, year
+    crash_data[['CRASH MONTH', 'CRASH DAY', 'CRASH YEAR']] = crash_data['CRASH DATE'].str.split('/', expand=True)
+    crash_data = crash_data.drop(columns=['CRASH DATE'])
+                                        </code>
+                                    </pre>
+                                    The original columns in the dataframe: 
+                                    <pre>
+                                        <code>
+    Index(['CRASH DATE', 'CRASH TIME', 'BOROUGH', 'ZIP CODE', 'LATITUDE',
+    'LONGITUDE', 'LOCATION', 'ON STREET NAME', 'CROSS STREET NAME',
+    'OFF STREET NAME', 'NUMBER OF PERSONS INJURED',
+    'NUMBER OF PERSONS KILLED', 'NUMBER OF PEDESTRIANS INJURED',
+    'NUMBER OF PEDESTRIANS KILLED', 'NUMBER OF CYCLIST INJURED',
+    'NUMBER OF CYCLIST KILLED', 'NUMBER OF MOTORIST INJURED',
+    'NUMBER OF MOTORIST KILLED', 'CONTRIBUTING FACTOR VEHICLE 1',
+    'CONTRIBUTING FACTOR VEHICLE 2', 'CONTRIBUTING FACTOR VEHICLE 3',
+    'CONTRIBUTING FACTOR VEHICLE 4', 'CONTRIBUTING FACTOR VEHICLE 5',
+    'COLLISION_ID', 'VEHICLE TYPE CODE 1', 'VEHICLE TYPE CODE 2',
+    'VEHICLE TYPE CODE 3', 'VEHICLE TYPE CODE 4', 'VEHICLE TYPE CODE 5'],
+    dtype='object')
+                                        </code>
+                                    </pre>
+
+                                    Secondly, we ensured
+                                    correct attribute data type. It is important that data types are consistent with the given data in
+                                    the column so data can be interpreted easily, ambiguity is reduced, that any model done on the
+                                    data will perform predictably, and because inconsistent data types can lead to confusion and
+                                    errors during the data mining process.
+
+                                    <div id="data_type_images">
+                                        <div class="image-container">
+                                            <img src="images/data types before.png" alt="Data Types Before">
+                                        </div>
+                                    
+                                        <div class="image-container">
+                                            <img src="images/data types after.png" alt="Data Types After">
+                                        </div>
+                                    </div>
+
+                                    Afterwards, we addressed the missing values in the dataframe. For attributes of an int or float
+                                    data types, missing values were replaced with the value of “-1”. The missing values of other
+                                    attributes were replaced with “”. Next, we reduced the amount of data present in the dataframe.
+                                    The major objective of this assignment was to analyze the trends in the boroughs of New York.
+                                    Therefore, any rows without a borough present were removed from the dataframe. The column
+                                    “LOCATION” was also dropped because it was simply a concatenation of the latitude and
+                                    longitude columns already present in the dataframe. Records with crash years less than 2019
+                                    and greater than 2020 were also removed. We also looked at the unique values present for the
+                                    attributes of vehicle type codes and contributing factors. To properly clean the data, it would be
+                                    best to either remove values that were nonsensical or replace them with a sensible value. Given
+                                    that the incorrect values were plentiful, this would be an extensive process and is something
+                                    that could be tackled in a further revision of this project.
+
+                                    <br>
+                                    <br>
+
+                                    Another step taken in the data preparation process was to split (quantize) the data into the
+                                    five(5) boroughs and save the data to separate csv files. Therefore, when analyzing data
+                                    specific to a borough, there is less data to manipulate and would aid in speeding up the run time
+                                    for these processes. Lastly, we take a look at the amount of records present in the dataframe
+                                    after cleaning. There are nearly twice as many records for the year 2020 compared to the year
+                                    2019. Additionally, the amount of records per borough vary widely. Initially, we suspected that
+                                    this is likely due to the relative size and density of each of the boroughs. However, according to
+                                    the information provided from a 2020 census, the most densely populated borough is
+                                    Manhattan, having nearly twice the density than the next largest densely populated borough,
+                                    Brooklyn. Brooklyn has nearly twice as many accidents as Manhattan. Queens is the second
+                                    least densely populated borough but yet has nearly as many accidents as Brooklyn. Reasons
+                                    for the inconsistencies which could be further explored include:
+                                    - Boroughs with higher economic activities would have more vehicular traffic leading to
+                                    higher probability of accidents
+                                    - Boroughs with more established public transport could have less accidents
+                                    - Boroughs with higher enforcement of traffic laws could have less accidents
+                                    - Boroughs may have different designs and conditions of infrastructure such as road
+                                    design, road maintenance and traffic signals.
+                                    
+                                    <!-- <div id="data_type_images">
+                                        <div class="image-container">
+                                            <img src="images/borough stats.png" alt="Borough Stats">
+                                        </div>
+                                    </div> -->
+                                    <div class="table-wrapper">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Category</th>
+                                                    <th>Number of Records</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Year 2019</td>
+                                                    <td>137024</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Year 2020</td>
+                                                    <td>73688</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Borough MANHATTAN</td>
+                                                    <td>37449</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Borough QUEENS</td>
+                                                    <td>60531</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Borough BRONX</td>
+                                                    <td>36743</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Borough BROOKLYN</td>
+                                                    <td>69951</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Borough STATEN ISLAND</td>
+                                                    <td>6038</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    We also created a cross correlation matrix of the data. For the boroughs, we replaced the five
+                                    categories with IDs from 1-5. For the contributing factors and vehicle types, we limited the data
+                                    to the top 20 occurring values for these four columns. We also restricted the data to a two-entity
+                                    collision. Interestingly, we found that many attributes in the data did not have strong relationships with
+                                    each other. The strongest relationships were those that were intuitive such as number of
+                                    motorists killed <-> number of persons killed. We therefore did not use the cross correlation
+                                    matrix to carry out feature reduction of the dataset.
+
+                                    <!-- <div id="data_type_images">
+                                        <div class="image-container">
+                                            <img src="images/cross cor 1.png" alt="Cross Correlation Pic 1">
+                                        </div>
+                                    
+                                        <div class="image-container">
+                                            <img src="images/cross cor 2.png" alt="Cross Correlation Pic 2">
+                                        </div>
+                                    </div> -->
+
+                                    <div class="box alt">
+                                        <div class="row gtr-uniform">
+                                            <div class="col-12"><span class="image fit"><img src="images/cross cor 1.png" alt="Cross Correlation Pic 1"></span></div>
+                                            <div class="col-12"><span class="image fit"><img src="images/cross cor 2.png" alt="Cross Correlation Pic 2"></span></div>
+                                        </div>
+                                    </div>
+                                </p>
+                                <h4> Data Analysis</h4>
+                                <h5> Temporal Analysis</h5>
+                                <p>
+                                    The overarching question that we wish to answer is what changes can be seen between the
+                                    months of June and July for the years of 2019 and 2020 in the borough of Manhattan. Firstly,
+                                    we construct a time series graph of the total number of crashes for all boroughs and we can see
+                                    that in 2019, most crashes happened in the months May, June and July. This can be expected
+                                    as more people travel to the New York area during the summer months for reasons such as
+                                    good weather and fun events. However, this is sharply contrasted with that of 2020. In New
+                                    York, COVID lockdowns began on March 15. Fewer vehicular traffic would directly relate to
+                                    fewer accidents. The number of traffic accidents reduces moderately in March 2020 and then
+                                    sharply drops in April as lockdowns are in full effect. As the number of motorists and
+                                    pedestrians steadily increase as the year progresses and restrictions ease, many people were working from
+                                    home and so the number of accidents are still generally lower than in 2019.
+
+                                    <div class="box alt">
+                                        <div class="row gtr-uniform">
+                                            <div class="col-12"><span class="image fit"><img src="images/2019vs2020_time_series.png" alt="Crashes Per Month Chart for 2019 vs 2020"></span></div>
+                                        </div>
+                                    </div>
+
+                                    When taking a closer look at the months of June and July for the years 2019 and 2020, we
+                                    could see that there is a cyclic pattern, most evident in June & July 2019 and July 2020. For
+                                    June 2019, we see that the local minima include 06/02, 06/09, 06/17, 06/23, 06/30. The local
+                                    maxima include 06/03, 06/07, 06/12, 06/14, 06/18, 06/21. There is generally a reduction in
+                                    accidents at the very beginning of the week and more accidents mid-week and on Fridays. This
+                                    pattern is disrupted in June of 2020 however as the COVID lockdowns make travel more
+                                    unpredictable. Interestingly, the lowest number of crashes reported in July was on the 4th and
+                                    this happened to be on a Thursday. We can attribute this to people spending time with their
+                                    families on this holiday and therefore, are not traveling.
+
+                                    <div class="box alt">
+                                        <div class="row gtr-uniform">
+                                            <div class="col-12"><span class="image fit"><img src="images/time_series_june.png" alt="Chart for Time Series June"></span></div>
+                                            <div class="col-12"><span class="image fit"><img src="images/time_series_july.png" alt="Chart for Time Series July"></span></div>
+                                        </div>
+                                    </div>
+
+                                    We also saw that Manhattan had a similar pattern. Most of the local minima for the year 2019
+                                    such as 06/02, 06/15, 06/17, 06/23, 07/04, 07/14, 07/21, 07/28 happened at the beginning of the
+                                    week (Sunday & Monday) and July 4th. Most of the maxima such as 06/07, 06/14, 06/21, 06/27,
+                                    07/12, 07/26, happened on Friday. For 2022, we noticed that many of the maxima conversely
+                                    happened at the beginning of the week. This may be due to the fact that people worked from
+                                    home during the week and so there was more movement on the weekends, leading to more
+                                    crashes.
+
+                                    <div class="box alt">
+                                        <div class="row gtr-uniform">
+                                            <div class="col-12"><span class="image fit"><img src="images/manhattan_time_series.png" alt="Crashes Time Series for Manhattan Borough"></span></div>
+                                        </div>
+                                    </div>
+
+                                    Following this, we take a look at the number of crashes throughout the day in Manhattan. We
+                                    see for all months, crashes typically occur during the “working hours” of the day, from 8AM to
+                                    around 7PM. Though there are significantly less crashes in the year 2020, the trend is seen for
+                                    both years. The most crashes happen around 2PM and 4PM. We hypothesize that persons
+                                    7
+                                    could be returning from lunch time appointments at 2PM or heading out of work at around 4PM.
+                                    Hence, with more motorists and pedestrians, there are more crashes.
+
+                                    <div class="box alt">
+                                        <div class="row gtr-uniform">
+                                            <div class="col-12"><span class="image fit"><img src="images/manhattan_hourly.png" alt="Chart for Hourly Manhattan"></span></div>
+                                            <div class="col-12"><span class="image fit"><img src="images/manhattan_hourly_june_july.png" alt="Chart for Hourly Manhattan June to July"></span></div>
+                                        </div>
+                                    </div>
+                                </p>
+                                <h5> Data Clustering</h5>
+                                <p>
+                                    We then wanted to see how the data would naturally cluster together. This would give us some
+                                    insight into which areas were similar in terms of the number of accidents and causes for these
+                                    accidents. Upon visual inspection of a map of the five boroughs of New York, we can say that
+                                    their shapes were not spherical and as such, K-means would not be a suitable clustering
+                                    algorithm to use to try to group the data. We instead use the DB Scan algorithm to cluster the
+                                    data and tune the parameters as shown below.
+                                    <br>
+                                    <br>
+                                    When using an epsilon of 1 (the minimum distance needed for samples to cluster), we saw that
+                                    the data naturally grouped into roughly six clusters, with the Manhattan cluster constantly being
+                                    split into a northern and southern region. This could highlight that there is a different pattern of
+                                    vehicular accidents in the northern and southern parts of Manhattan. When we tried to repeat
+                                    this experiment on only the borough of Manhattan, clusters failed to form. We hypothesize that
+                                    this is due to not having enough data to compensate for the high dimensional data set.
+
+                                    <!-- <div class="table-wrapper">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>min_samples = 5</th>
+                                                    <th>min_samples = 10</th>
+                                                    <th>min_samples = 15</th>
+                                                    <th>min_samples = 20</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>epsilon = 0.5</td>
+                                                    <td><img src="images/DBScan Clustering Results for epsilon of 0.5 and min_samples: 5.png" alt="Image 1"></td>
+                                                    <td><img src="images/DBScan Clustering Results for epsilon of 0.5 and min_samples: 10.png" alt="Image 2"></td>
+                                                    <td><img src="images/DBScan Clustering Results for epsilon of 0.5 and min_samples: 15.png" alt="Image 3"></td>
+                                                    <td><img src="images/DBScan Clustering Results for epsilon of 0.5 and min_samples: 20.png" alt="Image 4"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>epsilon = 1</td>
+                                                    <td><img src="images/DBScan Clustering Results for epsilon of 1 and min_samples: 5.png" alt="Image 5"></td>
+                                                    <td><img src="images/DBScan Clustering Results for epsilon of 1 and min_samples: 10.png" alt="Image 6"></td>
+                                                    <td><img src="images/DBScan Clustering Results for epsilon of 1 and min_samples: 15.png" alt="Image 7"></td>
+                                                    <td><img src="images/DBScan Clustering Results for epsilon of 1 and min_samples: 20.png" alt="Image 8"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div> -->
+                                    <div class="table-wrapper">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>epsilon = 0.5</th>
+                                                    <th>epsilon = 1</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>min_samples = 5</td>
+                                                    <td><span class="image fit"><img src="images/DBScan Clustering Results for epsilon of 0.5 and min_samples: 5.png" alt="Image 1"></span></td>
+                                                    <td><span class="image fit"><img src="images/DBScan Clustering Results for epsilon of 1 and min_samples: 5.png" alt="Image 5"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>min_samples = 10</td>
+                                                    <td><span class="image fit"><img src="images/DBScan Clustering Results for epsilon of 0.5 and min_samples: 10.png" alt="Image 2"></span></td>
+                                                    <td><span class="image fit"><img src="images/DBScan Clustering Results for epsilon of 1 and min_samples: 10.png" alt="Image 6"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>min_samples = 15</td>
+                                                    <td><span class="image fit"><img src="images/DBScan Clustering Results for epsilon of 0.5 and min_samples: 15.png" alt="Image 3"></span></td>
+                                                    <td><span class="image fit"><img src="images/DBScan Clustering Results for epsilon of 1 and min_samples: 15.png" alt="Image 7"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>min_samples = 20</td>
+                                                    <td><span class="image fit"><img src="images/DBScan Clustering Results for epsilon of 0.5 and min_samples: 20.png" alt="Image 4"></span></td>
+                                                    <td><span class="image fit"><img src="images/DBScan Clustering Results for epsilon of 1 and min_samples of 20.png" alt="Image 8"></span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </p>
+                                <h4>Conclusion</h4>
+                                <p>
+                                    Undeniably, the most important lesson from this assignment was the importance of the data
+                                    preparation process. Without it, doing an analysis of the data would have been difficult, and the
+                                    results obtained would be confusing. The exploratory analysis done on the data gave us an idea
+                                    of the nature of the data and what the data types the attributes should be. Data cleaning
+                                    encompassed a significant portion of this project because the data received directly from the
+                                    database contained many inconsistencies such as missing values, incorrect data types, and
+                                    nonsensical data. An interesting aspect of this project that highlighted the importance of data
+                                    cleaning was when we carried out different clustering algorithms to discover the inherent
+                                    structure in the data. When trying to implement the first algorithm, DBScan, we were swiftly met
+                                    with errors in which the algorithm couldn't be completed because of 'NaN' values. Overall, we 
+                                    developed an understanding of the structure of the
+                                    data taken from the City of New York's records on crashes and how important it is to implement
+                                    the data mining process in order to understand real data and make actionable decisions from
+                                    this analysis.
+                                    <br>
+                                    <br>
+
+                                    The biggest challenge that we faced was mitigating against poor quality data. We carried out
+                                    extensive data cleaning to improve the quality as best as possible, however more could be done
+                                    to remove nonsense values. We believe that the Curse of Dimensionality may also have come
+                                    into play. This dataset was a very high-dimensional feature space (25 attributes) and so the
+                                    data set may not have been large enough in order for us to see true trends. We also faced
+                                    some difficulties in choosing in what ways to analyze and visualize the data to provide useful
+                                    insights. We realized that some charts were unnecessary as they either provided too few
+                                    insights or could be answered by another chart already created. Lastly, the choice of the best
+                                    algorithms to apply to this data also posed a challenge as clustering algorithms are each suited
+                                    for different types of datasets.
+
+                                    <br>
+                                    <br>
+
+                                    Some of our primary assumptions about the data before data mining was that most accidents
+                                    would happen on the weekend and would generally happen at night. New York is a very vibrant
+                                    area with a thriving nightlife scene. However, after analyzing the data, we saw that most
+                                    accidents happened at 4PM and would most likely happen on a Friday. An interesting thing we
+                                    discovered is that oftentimes, our initial assumptions about a dataset can be proven to be
+                                    incorrect. This highlights that it is crucial to properly analyze a dataset instead of going forward
+                                    and making decisions based on one's assumptions. Lastly, we were also surprised by the fact
+                                    that the attributes were largely weakly connected with one another.
+                                </p>
+                            </div>
+                        </div>
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<section>
+								<h2>Get in touch</h2>
+								<form method="post" action="#">
+									<div class="fields">
+										<div class="field half">
+											<input type="text" name="name" id="name" placeholder="Name" />
+										</div>
+										<div class="field half">
+											<input type="email" name="email" id="email" placeholder="Email" />
+										</div>
+										<div class="field">
+											<textarea name="message" id="message" placeholder="Message"></textarea>
+										</div>
+									</div>
+									<ul class="actions">
+										<li><input type="submit" value="Send" class="primary" /></li>
+									</ul>
+								</form>
+							</section>
+							<section>
+								<h2>Follow</h2>
+								<ul class="icons">
+									<li><a href="https://github.com/athina-stewart" class="icon brands style2 fa-github"><span class="label">GitHub</span></a></li>
+									<li><a href="mailto:athina.stewart@gmail.com" class="icon solid style2 fa-envelope"><span class="label">Email</span></a></li>
+									<li><a href="https://www.linkedin.com/in/athinastewart/" class="icon solid style2 fa-linkedin"><span class="label">LinkedIn</span></a></li>
+								</ul>
+							</section>
+							<ul class="copyright">
+								<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
