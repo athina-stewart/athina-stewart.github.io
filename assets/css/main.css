@@ -2433,7 +2433,18 @@ input, select, textarea {
 					margin: 0 0 2em 0;
 				}
 
+				.image.left,
+				.image.right {
+					max-width: 100%; /* Set max-width to 100% for left and right images on mobile */
+				}
+
+				.image.left img,
+				.image.right img {
+					border-radius: 0; /* Remove border-radius on mobile if needed */
+				}
+
 			}
+
 
 /* Table */
 
