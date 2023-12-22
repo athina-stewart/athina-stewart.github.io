@@ -2440,7 +2440,7 @@ input, select, textarea {
 
 				.image.left img,
 				.image.right img {
-					border-radius: 0; /* Remove border-radius on mobile if needed */
+					border-radius: 20px; /* Remove border-radius on mobile if needed */
 				}
 
 			}
