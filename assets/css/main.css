@@ -7,7 +7,7 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
-#data_type_images {
+/* #data_type_images {
 	display: flex;
 	justify-content: center;
 }
@@ -15,6 +15,34 @@
 .image-container {
 	width: 40%;
 	margin: 10px;
+} */
+
+#data_type_images {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.image-container {
+	width: 40%;
+	margin: 10px;
+}
+
+.image-container img {
+	width: 70%;
+	height: auto;
+}
+
+@media (max-width: 600px) {
+	/* Adjust the breakpoint (600px) as needed */
+	#data_type_images {
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.image-container {
+		width: 80%; /* Adjust the width as needed for smaller screens */
+	}
 }
 
 .stats-container {
@@ -27,10 +55,10 @@
 	margin: 10px;
 }
 
-.image-container img {
+/* .image-container img {
 	width: 70%;
 	height: auto;
-}
+} */
 
 .center-box {
     background-color: #f2f2f2;
