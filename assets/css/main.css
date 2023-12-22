@@ -7,6 +7,31 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
+#data_type_images {
+	display: flex;
+	justify-content: center;
+}
+
+.image-container {
+	width: 40%;
+	margin: 10px;
+}
+
+.stats-container {
+	width: 100%;
+	margin: 10px;
+}
+
+.stats-container img {
+	width: 40%;
+	margin: 10px;
+}
+
+.image-container img {
+	width: 70%;
+	height: auto;
+}
+
 .center-box {
     background-color: #f2f2f2;
     padding: 0px;
