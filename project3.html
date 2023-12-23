@@ -41,7 +41,7 @@
 						<ul>
 							<li><a href="index.html">Home</a></li>
 							<li><a href="aboutme.html">About Me</a></li>
-							<li><a href="https://drive.google.com/file/d/1v81FS_YGe7hk-wWHJMuCZXLnccwxNEtu/view?usp=sharing">Resume</a></li>
+							<li><a href="https://drive.google.com/file/d/1Hykz9E4BPszkW3bLhDe0NqEt3TWZ68xt/view?usp=sharing">Resume</a></li>
 						</ul>
 					</nav>
 
@@ -90,11 +90,11 @@
                                     single sentence classification tasks (SST-2 and CoLA).
                                 </p>
 
-								<h4> The Solution</h4>
+								<h4> The BERT Model</h4>
 								<p>   
-                                    <i>The BERT Model</i>
-                                    <br>
-                                    <br>
+                                    <!-- <i>The BERT Model</i> -->
+                                    <!-- <br>
+                                    <br> -->
 
                                     The BERT-Base model, developed by Google, represents a cutting-edge natural language processing (NLP) model 
                                     with 12 transformers and 110 million parameters. Key features include its foundation on the Transformer 
@@ -103,12 +103,15 @@
                                     considering the surrounding context in a sentence. It employs training strategies such as Masked Language 
                                     Model (MLM) and Next Sentence Prediction (NSP) to enhance contextual awareness. BERT's bidirectional context 
                                     understanding significantly improves its ability to grasp complex contextual relationships in language.
+								</p>
 
-                                    <br>
+								<h4> Fine-Tuning the Model</h4>
+								<p>
+                                    <!-- <br>
                                     <br>
                                     <i>Fine-Tuning the Model</i>
                                     <br>
-                                    <br>
+                                    <br> -->
 
                                     Fine-tuning BERT involves utilizing its pre-trained weights on a large corpus and adapting it to specific 
                                     downstream tasks. The model is pre-trained on extensive datasets like BooksCorpus and English Wikipedia. 
@@ -116,12 +119,16 @@
                                     BERT proves versatile for various NLP tasks, including question-answering, sentiment analysis, and document 
                                     classification. The fine-tuning process involves using BERT-Base on different NLP tasks, adjusting parameters 
                                     like batch size and sequence length, and leveraging transfer learning for efficient model development.
+								</p>
 
-                                    <br>
+								<h4> Proposed Modifications</h4>
+								<p>
+
+                                    <!-- <br>
                                     <br>
                                     <i>Proposed Modifications</i>
                                     <br>
-                                    <br>
+                                    <br> -->
 
                                     Despite BERT's success, overparameterization poses challenges, especially with limited training examples. 
                                     To address overfitting, the report explores network compression through quantization and pruning. Quantization 
@@ -129,12 +136,16 @@
                                     aim to enhance model efficiency and mitigate overfitting, offering potential improvements in model performance. 
                                     The study focuses on quantization and pruning as regularization techniques to refine the BERT model for 
                                     downstream tasks, ensuring simplicity and explainability in the results.
+								</p>
 
-                                    <br>
+								<h4> Experiment Hypothesis and Design</h4>
+								<p>
+
+                                    <!-- <br>
                                     <br>
                                     <i>Experiment Hypothesis and Design</i>
                                     <br>
-                                    <br>
+                                    <br> -->
 
                                     The experiment aims to assess the impact of regularization techniques, specifically pruning and quantization, 
                                     on BERT's performance in downstream tasks. The hypothesis posits that these techniques will mitigate overfitting, 
@@ -144,12 +155,16 @@
                                     its simplicity and effectiveness, dynamically quantizes weights during inference without retraining. Pruning, on 
                                     the other hand, entails removing less important parameters to create a more compact and efficient model. The 
                                     experiment utilizes magnitude-based pruning, where parameters with small magnitudes are removed.
+								</p>
 
-                                    <br>
+								<h4> Experiment Methodology</h4>
+								<p>
+
+                                    <!-- <br>
                                     <br>
                                     <i>Experiment Methodology</i>
                                     <br>
-                                    <br>
+                                    <br> -->
 
                                     Quantization employs PyTorch's dynamic quantization library, specifically the <code>torch.quantization.quantize_dynamic </code>
                                     function, to reduce model precision during runtime. The quantization process dynamically reduces weights and 
@@ -157,12 +172,16 @@
                                     including SST-2 and MRPC, is downloaded and preprocessed for the experiment. Model configuration involves specifying 
                                     the pre-trained BERT model, maximum sequence length, GLUE task, and other parameters. Device and batch configuration 
                                     set the device, batch size, and other relevant parameters. The experiment uses random seed 42 for reproducibility.
+								</p>
 
-                                    <br>
+								<h4> Methodology</h4>
+								<p>
+
+                                    <!-- <br>
                                     <br>
                                     <i>Experiment Analysis and Methodology Extension</i>
                                     <br>
-                                    <br>
+                                    <br> -->
 
                                     The experiment involves measuring the sparsity level and resulting model size after quantization, along with 
                                     performance metrics like accuracy and loss after fine-tuning. Pruning parameters include initial and final sparsity, 
@@ -172,12 +191,44 @@
                                     input sentences, and magnitude pruning is applied to the dense layer. The model is compiled and trained, with a 
                                     pruning callback updating pruning masks during training. The BERT model is fine-tuned on Cola and MRPC tasks as part 
                                     of the experiment.
-                                </p>
-
-								<h4> Solution Design</h4>
-								<p> 
-
 								</p>
+
+								<h4> Experiment Results</h4>
+								<p>
+
+									<!-- <br>
+                                    <br>
+                                    <i>Experiment Results</i>
+                                    <br>
+                                    <br> -->
+
+									Challenges encountered during the experiment include TensorFlow quantization issues, determining optimal hyperparameters
+									for pruning, and handling data preprocessing for GLUE benchmark datasets. Switching from TensorFlow to PyTorch for
+									quantization provided more flexibility. Identifying hyperparameters for pruning involved extensive experimentation, 
+									with considerations like initial sparsity, final sparsity, begin_step, and end_step.
+
+									<br>
+                                    <br>
+
+									Performance metrics presented in Tables 1, 2, and 3 showcase the outcomes of pruning and quantization experiments. Pruning, 
+									fine-tuned on the MRPC and CoLA datasets, exhibited a decrease in training loss and an increase in training accuracy over 
+									epochs, suggesting potential benefits in terms of model compression. The quantized BERT model, fine-tuned on MRPC and SST-2, 
+									demonstrated comparable accuracy to non-quantized models, emphasizing the effectiveness of quantization in reducing model 
+									size without compromising performance. The quantized models also exhibited a significant reduction in model size (58.62%). 
+									Preliminary results from fine-tuning the BERT model pre-quantization and pruning on the CoLA and MRPC datasets show trends 
+									in accuracy and loss, providing insights into the model's behavior during training and validation.
+
+									<br>
+                                    <br>
+
+									In future work, the experimenters propose exploring additional pruning and quantization techniques, such as neuron pruning, 
+									sparse pruning, and structured pruning, to determine their effectiveness for the BERT model. Comparisons across different 
+									language models could offer broader insights into the generalizability of these compression strategies on various architectures. 
+									The preliminary results hint at nuances in validation accuracy and loss, emphasizing the importance of continued exploration 
+									and optimization of compression techniques for BERT.
+
+									<div class="col-12"><span class="image fit"><img src="images/BERT results.png" alt="" /></span></div>
+                                </p>
 							</div>
 						</div>
 					</div>
